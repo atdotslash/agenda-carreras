@@ -1,0 +1,44 @@
+body {
+  font-family: sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.evento {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #fefefe;
+  margin-bottom: 10px;
+}
+
+.evento h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.evento p {
+  margin: 4px 0;
+  color: #333;
+}
+
+a {
+  color: #1a73e8;
+  text-decoration: none;
+}

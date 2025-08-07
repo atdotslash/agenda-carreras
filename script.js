@@ -1,63 +1,46 @@
+const ID_HOJA = "1YGjPbjPf5jR_EXMGCMUn-n_TimPrCxjDXAWr8iAhwgY";
+const NOMBRE_HOJA = "Hoja1";
+const API_KEY = "AIzaSyAQVJ6bxEfixj00Y6k5H7xQpqVHs5VzFVc";
 
-const sheetID = "1YGjPbjPf5jR_EXMGCMUn-n_TimPrCxjDXAWr8iAhwgY";
-const sheetName = "Hoja1";
-const apiKey = "AIzaSyAQVJ6bxEfixj00Y6k5H7xQpqVHs5VzFVc";
-const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${sheetName}?key=${apiKey}`;
+const URL = `https://sheets.googleapis.com/v4/spreadsheets/${ID_HOJA}/values/${NOMBRE_HOJA}?alt=json&key=${API_KEY}`;
+
+const agendaHoy = document.getElementById("agenda-hoy");
+const spanFechaHoy = document.getElementById("fecha-hoy");
+
+const diaSemana = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const mesNombre = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 const hoy = new Date();
-const hoyISO = hoy.toISOString().split("T")[0];
+const fechaHoyISO = hoy.toISOString().split("T")[0];
+spanFechaHoy.textContent = `${diaSemana[hoy.getDay()]}, ${hoy.getDate()} de ${mesNombre[hoy.getMonth()]} de ${hoy.getFullYear()}`;
 
-document.getElementById("fecha-hoy").textContent = hoy.toLocaleDateString("es-AR", {
-  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-});
-
-fetch(url)
-  .then(res => res.json())
-  .then(data => {
-    if (!data.values || !Array.isArray(data.values)) throw new Error("No se pudieron cargar los datos.");
-    
-    const headers = data.values[0];
-    const rows = data.values.slice(1).map(row => Object.fromEntries(headers.map((h, i) => [h, row[i]])));
-    
-    const agendaHoy = rows.filter(row => row.fecha === hoyISO);
-    const agendaContainer = document.getElementById("agenda-hoy");
-    const proximaContainer = document.getElementById("proxima-clase");
-
-    if (agendaHoy.length === 0) {
-      agendaContainer.innerHTML = "<p>No hay clases programadas para hoy.</p>";
-    } else {
-      agendaHoy.forEach(row => agendaContainer.appendChild(crearCard(row)));
+fetch(URL)
+  .then((res) => res.json())
+  .then((data) => {
+    if (!data.values || !Array.isArray(data.values)) {
+      agendaHoy.innerHTML = "<p>Error al cargar los datos.</p>";
+      return;
     }
 
-    // Buscar próxima clase futura
-    const ahora = new Date();
-    const proximas = rows
-      .filter(row => row.fecha && row.hora && new Date(`${row.fecha}T${row.hora}`) > ahora)
-      .sort((a, b) => new Date(`${a.fecha}T${a.hora}`) - new Date(`${b.fecha}T${b.hora}`));
+    const filas = data.values.slice(1);
+    const eventosHoy = filas.filter(f => f[0] === fechaHoyISO);
 
-    // Excluir clases que ya se están mostrando hoy
-    const idsHoy = agendaHoy.map(r => r.materia + r.hora);
-    const siguiente = proximas.find(r => !idsHoy.includes(r.materia + r.hora));
-
-    if (siguiente) proximaContainer.appendChild(crearCard(siguiente));
-    else proximaContainer.innerHTML = "<p>No hay próximas clases programadas.</p>";
+    if (eventosHoy.length === 0) {
+      agendaHoy.innerHTML = "<p>No hay clases programadas para hoy.</p>";
+    } else {
+      const htmlEventos = eventosHoy.map(fila => `
+        <div class="evento">
+          <h3><i class="fa-solid fa-book"></i> ${fila[1]}</h3>
+          <p><i class="fa-regular fa-clock"></i> ${fila[2]}</p>
+          <p><i class="fa-solid fa-school"></i> ${fila[3]}</p>
+          <p><i class="fa-solid fa-thumbtack"></i> ${fila[4]}</p>
+          ${fila[5] ? `<p><i class="fa-solid fa-link"></i> <a href="${fila[5]}" target="_blank">Ir a la clase</a></p>` : ""}
+        </div>
+      `).join("");
+      agendaHoy.innerHTML = htmlEventos;
+    }
   })
   .catch(err => {
-    document.getElementById("agenda-hoy").innerHTML = "<p>Error al cargar los datos.</p>";
     console.error(err);
+    agendaHoy.innerHTML = "<p>Error al cargar los datos.</p>";
   });
-
-function crearCard(row) {
-  const card = document.createElement("div");
-  card.className = "card";
-  card.innerHTML = `
-    <div class="card-body">
-      <h5 class="card-title">📘 ${row.materia}</h5>
-      <p class="card-text">🕐 ${row.hora || "Sin hora"}<br/>
-      🏫 ${row.institucion || "Sin institución"}<br/>
-      📌 ${row.modalidad || "Sin modalidad"}<br/>
-      🔗 <a href="${row.enlace || "#"}" target="_blank">Ir a la clase</a></p>
-    </div>
-  `;
-  return card;
-}
