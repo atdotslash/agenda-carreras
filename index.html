@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agenda desde Google Sheets API</title>
     <style>
         body {
@@ -12,6 +12,10 @@
             padding: 20px;
         }
         h1 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 2em;
             color: #333;
         }
         .card {
@@ -75,7 +79,7 @@
 
                 const ahora = new Date();
                 const futuros = eventos
-                    .filter(e => e.fechaHora > ahora)
+                    .filter(e => e.fechaHora > ahora && e.FECHA !== hoyISO)
                     .sort((a,b) => a.fechaHora - b.fechaHora);
 
                 if (futuros.length > 0) {
@@ -86,6 +90,8 @@
                     if (mins <= 10) {
                         alert("⚠️ Tu próxima clase (" + proxima.MATERIA + ") empieza en menos de 10 minutos.");
                     }
+                } else {
+                    document.getElementById("proxima").innerHTML += "<p>No hay clases futuras programadas.</p>";
                 }
             })
             .catch(err => {
