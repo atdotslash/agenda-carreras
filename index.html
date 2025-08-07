@@ -52,6 +52,8 @@
         fetch(sheetURL)
             .then(response => response.json())
             .then(data => {
+                if (!Array.isArray(data)) throw new Error("Respuesta inesperada");
+
                 const eventos = data.map(e => ({
                     ...e,
                     HORARIO: e.HORARIO?.slice(0,5),
