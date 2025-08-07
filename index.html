@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Combinada desde Google Sheets</title>
+    <title>Agenda de ambas carreras (IFES + UNER)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,13 +40,13 @@
     </style>
 </head>
 <body>
-    <h1>📅 Agenda del día de hoy (<span id="fecha"></span>)</h1>
+    <h1>📅 Agenda para hoy - <span id="fecha"></span></h1>
     <div id="agenda"></div>
     <h2>📌 Próxima clase programada</h2>
     <div id="proxima"></div>
 
     <script>
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEGVWc8EMT_6w9tnpNcD_MGOu1pblubOrqRSj9Ycrsx4QHYgfq1H4MIhpHddpF9dwtup-1tBxzm4Hk/pub?output=csv";
+        const csvUrl = "https://opensheet.vercel.app/2PACX-1vQEGVWc8EMT_6w9tnpNcD_MGOu1pblubOrqRSj9Ycrsx4QHYgfq1H4MIhpHddpF9dwtup-1tBxzm4Hk/Hoja1";
 
         const hoyFechaObj = new Date();
         const hoyStr = hoyFechaObj.toLocaleDateString('sv-SE');
