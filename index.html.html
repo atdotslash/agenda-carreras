@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Combinada desde Google Sheets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #666;
+            margin-top: 0;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Agenda del día de hoy (<span id="fecha"></span>)</h1>
+    <div id="agenda"></div>
+    <h2>📌 Próxima clase programada</h2>
+    <div id="proxima"></div>
+
+    <script>
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEGVWc8EMT_6w9tnpNcD_MGOu1pblubOrqRSj9Ycrsx4QHYgfq1H4MIhpHddpF9dwtup-1tBxzm4Hk/pub?output=csv";
+
+        const hoyFechaObj = new Date();
+        const hoyStr = hoyFechaObj.toLocaleDateString('sv-SE');
+        const opcionesFecha = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        const fechaCompleta = hoyFechaObj.toLocaleDateString('es-AR', opcionesFecha);
+        document.getElementById("fecha").textContent = fechaCompleta.charAt(0).toUpperCase() + fechaCompleta.slice(1);
+
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split("\n").slice(1);
+                const eventos = rows.map(row => {
+                    const cols = row.split(",");
+                    return {
+                        DIA: cols[0],
+                        FECHA: cols[1],
+                        HORARIO: cols[2].slice(0,5),
+                        MATERIA: cols[3],
+                        TIPO: cols[4],
+                        INSTITUCION: cols[5],
+                        ENLACE: cols[6]
+                    };
+                }).filter(e => e.FECHA && e.HORARIO);
+
+                const agendaHoy = eventos.filter(e => e.FECHA === hoyStr);
+                const contenedor = document.getElementById("agenda");
+
+                if (agendaHoy.length === 0) {
+                    contenedor.innerHTML = "<p>No hay clases programadas para hoy.</p>";
+                } else {
+                    agendaHoy.forEach(evento => {
+                        contenedor.appendChild(crearCard(evento));
+                    });
+                }
+
+                // Buscar próxima clase
+                const ahora = new Date();
+                const eventosFuturos = eventos.map(e => {
+                    const fechaHora = new Date(e.FECHA + "T" + e.HORARIO);
+                    return { ...e, fechaHora };
+                }).filter(e => e.fechaHora > ahora).sort((a, b) => a.fechaHora - b.fechaHora);
+
+                if (eventosFuturos.length > 0) {
+                    const proxima = eventosFuturos[0];
+                    const contProx = document.getElementById("proxima");
+                    contProx.appendChild(crearCard(proxima));
+
+                    const mins = (proxima.fechaHora - ahora) / 60000;
+                    if (mins <= 10) {
+                        alert("⚠️ Tu próxima clase (" + proxima.MATERIA + ") empieza en menos de 10 minutos.");
+                    }
+                }
+            });
+
+        function crearCard(evento) {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `
+                <strong>📘 ${evento.MATERIA}</strong><br>
+                🕒 ${evento.HORARIO}<br>
+                🏫 ${evento.INSTITUCION}<br>
+                📌 ${evento.TIPO}<br>
+                🔗 <a href="${evento.ENLACE}" target="_blank">Ir a la clase</a>
+            `;
+            return div;
+        }
+    </script>
+</body>
+</html>
