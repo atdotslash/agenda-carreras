@@ -32,6 +32,31 @@
         .card a:hover {
             text-decoration: underline;
         }
+        .carrera-badge {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+        .carrera-profesorado {
+            background-color: #e8f0fe;
+            color: #174ea6;
+        }
+        .carrera-desarrollo-web {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+        .carrera-ciencia-datos {
+            background-color: #fce8e6;
+            color: #b3261e;
+        }
+        .carrera-generica {
+            background-color: #f1f3f4;
+            color: #3c4043;
+        }
     </style>
 </head>
 <body>
@@ -99,10 +124,31 @@
                 document.getElementById("agenda").innerHTML = "<p>Error al cargar los datos.</p>";
             });
 
+        function obtenerClaseCarrera(carrera) {
+            const nombre = (carrera || "").trim().toLowerCase();
+
+            if (nombre.includes("profesor de educación secundaria técnica en electromecánica")) {
+                return "carrera-profesorado";
+            }
+            if (nombre.includes("técnico universitario en desarrollo web")) {
+                return "carrera-desarrollo-web";
+            }
+            if (nombre.includes("técnico superior en ciencia de datos e inteligencia artificial")) {
+                return "carrera-ciencia-datos";
+            }
+            return "carrera-generica";
+        }
+
         function crearCard(e) {
             const div = document.createElement("div");
             div.className = "card";
+            const claseCarrera = obtenerClaseCarrera(e.CARRERA);
+            const enlace = e.ENLACE
+                ? `🔗 <a href="${e.ENLACE}" target="_blank" rel="noopener noreferrer">Ir a la clase</a>`
+                : "";
+
             div.innerHTML = `
+                <div class="carrera-badge ${claseCarrera}">${e.CARRERA || "Carrera sin especificar"}</div><br>
                 <strong>📘 ${e.MATERIA}</strong><br>
                 🕒 ${e.HORARIO}<br>
                 🏫 ${e.INSTITUCION}<br>
