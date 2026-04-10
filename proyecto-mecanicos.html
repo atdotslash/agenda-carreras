@@ -2,73 +2,198 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; color: #333; }
-        .gantt-container { overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #2c3e50; color: white; }
-        .bar { height: 20px; border-radius: 10px; display: block; }
-        .design { background-color: #3498db; width: 100%; }
-        .mech { background-color: #e67e22; width: 100%; }
-        .elec { background-color: #9b59b6; width: 100%; }
-        .test { background-color: #2ecc71; width: 100%; }
-        .dept-tag { font-size: 0.8em; font-weight: bold; color: #555; }
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --success: #27ae60;
+            --bg-light: #f4f7f6;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 900px;
+            margin: auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            background: white;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0; color: var(--primary); font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: var(--accent); font-weight: bold; margin-top: 5px; }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            background: var(--bg-light);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+
+        h2 { border-left: 5px solid var(--accent); padding-left: 15px; color: var(--secondary); font-size: 20px; margin-top: 30px; }
+
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dept-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .dept-card strong { color: var(--primary); display: block; margin-bottom: 5px; }
+
+        /* GANTT STYLES */
+        .gantt-wrapper { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; }
+        td { border: 1px solid #eee; padding: 10px; }
+        
+        .timeline-cell { position: relative; width: 18%; }
+        .bar { 
+            height: 18px; 
+            border-radius: 9px; 
+            position: relative; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .bar-design { background: var(--accent); width: 100%; }
+        .bar-mech { background: #e67e22; width: 100%; }
+        .bar-elec { background: #9b59b6; width: 100%; }
+        .bar-test { background: var(--success); width: 100%; }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        @media print {
+            .document-container { box-shadow: none; border: none; }
+        }
     </style>
 </head>
 <body>
 
-<h2>Proyecto: Pultrusora de PET (Filamento 3D)</h2>
-<p><strong>Cátedra:</strong> Procesamiento Mecánico - 7mo Año EEST N° 1</p>
+<div class="document-container">
+    <header>
+        <h1>Hoja de Ruta de Fabricación y Diseño</h1>
+        <div class="subtitle">Pultrusora de PET para Filamento 3D</div>
+    </header>
 
-<table>
-    <thead>
-        <tr>
-            <th>Etapa del Proyecto</th>
-            <th>Abril</th>
-            <th>Mayo</th>
-            <th>Junio</th>
-            <th>Julio</th>
-            <th>Agosto</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><span class="dept-tag">DISEÑO</span><br>Cálculos y CAD</td>
-            <td><span class="bar design"></span></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><span class="dept-tag">MECÁNICA</span><br>Bastidor y Corte</td>
-            <td></td>
-            <td><span class="bar mech"></span></td>
-            <td><span class="bar mech"></span></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><span class="dept-tag">ELECTRÓNICA</span><br>Control y Motores</td>
-            <td></td>
-            <td></td>
-            <td><span class="bar elec"></span></td>
-            <td><span class="bar elec"></span></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><span class="dept-tag">CALIBRACIÓN</span><br>Pruebas de Filamento</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><span class="bar test"></span></td>
-            <td><span class="bar test"></span></td>
-        </tr>
-    </tbody>
-</table>
+    <div class="info-bar">
+        <span><strong>Cátedra:</strong> Procesamiento Mecánico - 7mo Año</span>
+        <span><strong>Ciclo Lectivo:</strong> 2026</span>
+        <span><strong>Ubicación:</strong> EEST N° 1</span>
+    </div>
 
-<p><strong>Fecha Límite:</strong> 14 de Agosto de 2026</p>
+    <h2>1. Objetivos Estratégicos por Departamento</h2>
+    <div class="dept-grid">
+        <div class="dept-card">
+            <strong>Dpto. de Diseño y Estructura</strong>
+            Dimensionamiento del bastidor, diseño CAD de piezas mecánicas y gestión del sistema de corte de botellas. El objetivo es garantizar la robustez mecánica del conjunto.
+        </div>
+        <div class="dept-card">
+            <strong>Dpto. de Termomecánica</strong>
+            Desarrollo del bloque calefactor, boquillas y gestión térmica de la extrusión. Su objetivo es la transformación estable del PET a un diámetro constante de 1.75mm.
+        </div>
+        <div class="dept-card">
+            <strong>Dpto. de Automatización</strong>
+            Integración de sensores, control PID de temperatura, tracción por motores paso a paso y software de interfaz. Objetivo: precisión y repetibilidad del proceso.
+        </div>
+    </div>
+
+    <h2>2. Cronograma de Ejecución (Diagrama de Gantt)</h2>
+    <div class="gantt-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Fase / Hito de Proyecto</th>
+                    <th>Abril</th>
+                    <th>Mayo</th>
+                    <th>Junio</th>
+                    <th>Julio</th>
+                    <th>Agosto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ingeniería y Selección:</strong> Planos y Presupuesto</td>
+                    <td class="timeline-cell"><div class="bar bar-design"></div></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Fabricación Mecánica:</strong> Bastidor y Corte</td>
+                    <td></td>
+                    <td class="timeline-cell"><div class="bar bar-mech"></div></td>
+                    <td class="timeline-cell"><div class="bar bar-mech"></div></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Integración de Sistemas:</strong> Control y Electrónica</td>
+                    <td></td>
+                    <td></td>
+                    <td class="timeline-cell"><div class="bar bar-elec"></div></td>
+                    <td class="timeline-cell"><div class="bar bar-elec"></div></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Control de Calidad:</strong> Pruebas de Filamento</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="timeline-cell"><div class="bar bar-test"></div></td>
+                    <td class="timeline-cell"><div class="bar bar-test"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>3. Estándares de Entrega</h2>
+    <ul>
+        <li><strong>Producto Terminado:</strong> Máquina funcional capaz de producir filamento imprimible.</li>
+        <li><strong>Documentación:</strong> Memoria técnica y manual de mantenimiento.</li>
+        <li><strong>Fecha Límite Improrrogable:</strong> Viernes 14 de Agosto de 2026.</li>
+    </ul>
+
+    <footer>
+        Documento de Cátedra | EEST N° 1 | Especialidad Técnico Mecánico
+    </footer>
+</div>
 
 </body>
 </html>
