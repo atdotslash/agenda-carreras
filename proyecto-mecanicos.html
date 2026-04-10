@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .gantt-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #2c3e50; color: white; }
+        .bar { height: 20px; border-radius: 10px; display: block; }
+        .design { background-color: #3498db; width: 100%; }
+        .mech { background-color: #e67e22; width: 100%; }
+        .elec { background-color: #9b59b6; width: 100%; }
+        .test { background-color: #2ecc71; width: 100%; }
+        .dept-tag { font-size: 0.8em; font-weight: bold; color: #555; }
+    </style>
+</head>
+<body>
+
+<h2>Proyecto: Pultrusora de PET (Filamento 3D)</h2>
+<p><strong>Cátedra:</strong> Procesamiento Mecánico - 7mo Año EEST N° 1</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Etapa del Proyecto</th>
+            <th>Abril</th>
+            <th>Mayo</th>
+            <th>Junio</th>
+            <th>Julio</th>
+            <th>Agosto</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><span class="dept-tag">DISEÑO</span><br>Cálculos y CAD</td>
+            <td><span class="bar design"></span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="dept-tag">MECÁNICA</span><br>Bastidor y Corte</td>
+            <td></td>
+            <td><span class="bar mech"></span></td>
+            <td><span class="bar mech"></span></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="dept-tag">ELECTRÓNICA</span><br>Control y Motores</td>
+            <td></td>
+            <td></td>
+            <td><span class="bar elec"></span></td>
+            <td><span class="bar elec"></span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="dept-tag">CALIBRACIÓN</span><br>Pruebas de Filamento</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><span class="bar test"></span></td>
+            <td><span class="bar test"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>Fecha Límite:</strong> 14 de Agosto de 2026</p>
+
+</body>
+</html>
