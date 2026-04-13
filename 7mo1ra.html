@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Proyecto Brazo Robot SCARA - EEST N°1 Zárate | Electromecánica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f4f7fc;
+            color: #1e2a3e;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        /* encabezado */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #0f5b7a;
+            padding-bottom: 1.5rem;
+        }
+        .header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #0b3b4f, #1e7e9f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c6979;
+            margin-top: 0.5rem;
+        }
+        .school-badge {
+            display: inline-block;
+            background: #eef2f5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            color: #155f74;
+        }
+
+        /* grid principal */
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* tarjetas sección */
+        .card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .card-header {
+            background: #eef4fa;
+            padding: 1rem 1.8rem;
+            border-bottom: 2px solid #cbdbe2;
+        }
+        .card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #1f5063;
+        }
+        .card-body {
+            padding: 1.5rem 1.8rem;
+        }
+
+        /* tabla departamentos y roles */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .dept-card {
+            background: #f9fbfd;
+            border-left: 5px solid #2c7da0;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .dept-card h4 {
+            font-size: 1.3rem;
+            color: #155f74;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px dashed #bdd3df;
+            display: inline-block;
+        }
+        .member-list {
+            margin-top: 0.75rem;
+            list-style: none;
+        }
+        .member-list li {
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dotted #e2edf2;
+            display: flex;
+            justify-content: space-between;
+        }
+        .badge-role {
+            font-size: 0.7rem;
+            background: #d4e3ed;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* diagrama Gantt (simulado con barras css) */
+        .gantt-wrapper {
+            overflow-x: auto;
+        }
+        .gantt {
+            min-width: 780px;
+        }
+        .gantt-header {
+            display: grid;
+            grid-template-columns: 220px repeat(10, 1fr);
+            background: #1e4663;
+            color: white;
+            font-weight: bold;
+            border-radius: 12px 12px 0 0;
+        }
+        .gantt-header > div {
+            padding: 0.7rem 0.3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            border-right: 1px solid #2f6080;
+        }
+        .gantt-row {
+            display: grid;
+            grid-template-columns: 220px repeat(10, 1fr);
+            border-bottom: 1px solid #e0eef4;
+            align-items: center;
+        }
+        .task-name {
+            font-weight: 600;
+            padding: 0.7rem 0.5rem;
+            background: #f8fafc;
+            border-right: 1px solid #cbdbe2;
+            font-size: 0.85rem;
+        }
+        .gantt-bar-container {
+            grid-column: span 10;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            position: relative;
+        }
+        .gantt-cell {
+            padding: 0.25rem;
+            border-right: 1px solid #e2edf2;
+            min-height: 42px;
+        }
+        .bar {
+            background-color: #2c7da0;
+            border-radius: 20px;
+            height: 28px;
+            margin: 4px 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: white;
+            font-weight: bold;
+            padding: 0 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .bar-ia {
+            background-color: #9b59b6;
+        }
+        .bar-meca {
+            background-color: #e67e22;
+        }
+        .bar-ctrl {
+            background-color: #27ae60;
+        }
+        .week-labels {
+            display: grid;
+            grid-template-columns: 220px repeat(10, 1fr);
+            background: #eef2f7;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .week-labels > div {
+            padding: 0.4rem;
+        }
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+        .color-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* descripción técnica */
+        .tech-detail {
+            background: #f0f6fa;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+        .badge-icon {
+            font-family: monospace;
+            background: #2c3e50;
+            color: white;
+            border-radius: 30px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.75rem;
+        }
+
+        /* tabla alumnos compacta */
+        .student-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+            max-height: 280px;
+            overflow-y: auto;
+            border: 1px solid #e2edf2;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            background: #fefefe;
+        }
+        .student-item {
+            font-size: 0.85rem;
+            padding: 0.2rem 0.4rem;
+            border-bottom: 1px solid #e9f0f3;
+            display: flex;
+            justify-content: space-between;
+        }
+        .student-num {
+            font-weight: bold;
+            color: #2c7da0;
+        }
+
+        hr {
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #5e7e8f;
+            border-top: 1px solid #d4e2ea;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 780px) {
+            body {
+                padding: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .card-body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🤖 Brazo Robot SCARA · Ajedrez con IA</h1>
+        <h2>Proyecto Integrador · 7° 1ª División · Electromecánica</h2>
+        <div class="school-badge">🔧 E.E.S.T. N°1 · Zárate · Ciclo Lectivo 2026</div>
+        <div style="margin-top: 8px; font-size:0.85rem;">⚙️ Control: Arduino Uno + CNC Shield v3 + A4988 · Motores NEMA17</div>
+    </div>
+
+    <div class="dashboard">
+        <!-- SECCIÓN DIVISIÓN DE DEPARTAMENTOS (organigrama funcional) -->
+        <div class="card">
+            <div class="card-header">
+                <h3>📌 División de Departamentos · Equipo de Trabajo</h3>
+            </div>
+            <div class="card-body">
+                <div class="dept-grid">
+                    <div class="dept-card">
+                        <h4>⚙️ Mecánica & Estructura</h4>
+                        <ul class="member-list">
+                            <li>Coordinadores: <strong>Gabriel Cabrera, Tomás Candia</strong></li>
+                            <li>Montaje brazo SCARA, piezas impresas, ensamblaje base.</li>
+                            <li>Miembros: Andrés Carmona, Cielo Casati, Gabriel Cordero, Tomás Darino, Isaías Díaz, Iván Díaz, Gonzalo Domínguez, Ramiro Fernández.</li>
+                            <li><span class="badge-role">+ Fabricación piezas ajedrez</span></li>
+                        </ul>
+                    </div>
+                    <div class="dept-card">
+                        <h4>🔌 Control & Electrónica</h4>
+                        <ul class="member-list">
+                            <li>Coordinadores: <strong>Leonel González, Sebastián Leiva</strong></li>
+                            <li>Wiring Arduino+CNC Shield, drivers A4988, fuentes, shield.</li>
+                            <li>Miembros: Marcos Mamani, Diego Martínez, Román Montiel, Ramiro Narváez, Thiago Nascimbene, Lucía Pérez, Valentín Pérez.</li>
+                            <li><span class="badge-role">Pruebas de motores + calibración</span></li>
+                        </ul>
+                    </div>
+                    <div class="dept-card">
+                        <h4>🧠 IA & Visión Artificial</h4>
+                        <ul class="member-list">
+                            <li>Coordinadores: <strong>Jeremías Fragosa, Zoe Ruiz Díaz</strong></li>
+                            <li>Reconocimiento piezas (cámara), lógica de ajedrez, integración IA.</li>
+                            <li>Miembros: Jhojan Sarango Pulache, Bianca Segovia, Diego Segovia, Tiziano Stivanello, Kevin Vera, Thiago Villanueva, Thiago Zupo, Edgardo Sandoval.</li>
+                        </ul>
+                    </div>
+                    <div class="dept-card">
+                        <h4>📋 Programación & Firmware</h4>
+                        <ul class="member-list">
+                            <li>Coordinadores: <strong>Florencia Álvarez, Facundo Aranda</strong></li>
+                            <li>G-code, movimientos repetitivos, lógica SCARA, comunicación serie.</li>
+                            <li>Miembros: Selene Basile, Irina Borba, Lautaro Rodríguez, Gabriel Perrin Flores, Thiago Riquel.</li>
+                            <li><span class="badge-role">+ interfaz IA-Arduino</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; font-size:0.85rem; background:#e9f3f8; padding:0.6rem 1rem; border-radius: 1rem;">
+                    📢 Docente a cargo: Coordinación general del proyecto "Proyecto y Diseño de Instalaciones Eléctricas" · Turnos mañana y tarde (lunes 4+4hs). Total alumnos activos: <strong>36</strong>.
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAGRAMA DE GANTT: 2 meses (8 semanas) hasta 15/06/2026 -->
+        <div class="card">
+            <div class="card-header">
+                <h3>📅 Cronograma (Diagrama de Gantt) · Entrega: 15 de Junio 2026</h3>
+            </div>
+            <div class="card-body">
+                <div class="gantt-wrapper">
+                    <div class="gantt">
+                        <div class="week-labels">
+                            <div>Actividad / Semana</div>
+                            <div>Sem 1<br>20-26 Abr</div><div>Sem 2<br>27-3 May</div><div>Sem 3<br>4-10 May</div><div>Sem 4<br>11-17 May</div>
+                            <div>Sem 5<br>18-24 May</div><div>Sem 6<br>25-31 May</div><div>Sem 7<br>1-7 Jun</div><div>Sem 8<br>8-14 Jun</div>
+                            <div>Sem 9<br>15 Jun (entrega)</div><div>Margen</div>
+                        </div>
+                        <!-- Fila 1: Montaje mecánico final -->
+                        <div class="gantt-row">
+                            <div class="task-name">🔩 Ensamblaje final brazo SCARA + piezas ajedrez</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"><div class="bar bar-meca" style="width:100%;">Sem1-2</div></div>
+                                <div class="gantt-cell"><div class="bar bar-meca" style="width:100%;">Sem2</div></div>
+                                <div class="gantt-cell"><div class="bar bar-meca" style="width:70%;">ajustes</div></div>
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                        <!-- Fila 2: electrónica y control -->
+                        <div class="gantt-row">
+                            <div class="task-name">⚡ Montaje CNC Shield + A4988 + cableado NEMA17</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"></div><div class="gantt-cell"><div class="bar bar-ctrl" style="width:100%;">Sem2</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:100%;">Sem3</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:80%;">test</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:60%;">calib</div></div>
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                        <!-- Fila 3: firmware + movimientos repetitivos (fase1) -->
+                        <div class="gantt-row">
+                            <div class="task-name">🕹️ Programación tareas repetitivas (Fase 1)</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="bar" style="width:100%; background:#3498db;">Sem3</div></div>
+                                <div class="gantt-cell"><div class="bar" style="width:100%; background:#3498db;">Sem4</div></div>
+                                <div class="gantt-cell"><div class="bar" style="width:100%; background:#3498db;">pruebas</div></div>
+                                <div class="gantt-cell"><div class="bar" style="width:70%;">ajustes</div></div>
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                        <!-- Fila 4: Visión artificial e IA (fase2) -->
+                        <div class="gantt-row">
+                            <div class="task-name">🧠 Visión / IA · Reconocimiento piezas ajedrez</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="bar bar-ia" style="width:90%;">inicio IA</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ia" style="width:100%;">dataset</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ia" style="width:100%;">entrenamiento</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ia" style="width:100%;">integración</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ia" style="width:80%;">testing</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ia" style="width:50%;">final</div></div>
+                                <div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                        <!-- Fila 5: integración robot-IA + pruebas finales -->
+                        <div class="gantt-row">
+                            <div class="task-name">♟️ Integración completo · Humano vs Robot IA</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:60%;">proto</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:100%;">integración</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:100%;">depuración</div></div>
+                                <div class="gantt-cell"><div class="bar bar-ctrl" style="width:100%;">validación</div></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#e67e22;">ENTREGA</div></div>
+                                <div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                        <!-- Fila 6: documentación técnica y presentación -->
+                        <div class="gantt-row">
+                            <div class="task-name">📄 Informe final / presentación proyecto</div>
+                            <div class="gantt-bar-container">
+                                <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#95a5a6; width:60%;">borrador</div></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#95a5a6; width:80%;">redacción</div></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#95a5a6; width:100%;">revisión</div></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#2c3e50;">final</div></div>
+                                <div class="gantt-cell"><div class="bar" style="background:#2c3e50;">expo</div></div>
+                                <div class="gantt-cell"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="legend">
+                    <span><div class="color-badge" style="background:#e67e22;"></div> Mecánica/estructura</span>
+                    <span><div class="color-badge" style="background:#27ae60;"></div> Control / electrónica</span>
+                    <span><div class="color-badge" style="background:#9b59b6;"></div> IA / Visión</span>
+                    <span><div class="color-badge" style="background:#3498db;"></div> Firmware repetitivo</span>
+                    <span><div class="color-badge" style="background:#95a5a6;"></div> Documentación</span>
+                    <span><strong>📆 Hito clave: 15/06/2026 entrega final</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalle técnico + lista completa de estudiantes -->
+        <div class="card">
+            <div class="card-header">
+                <h3>📋 Estado técnico del proyecto · Recursos y alumnos</h3>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                    <div style="flex: 2; min-width: 240px;">
+                        <h4>🤖 Brazo Robot SCARA + control</h4>
+                        <div class="tech-detail">
+                            <p><span class="badge-icon">✔️</span> Motores NEMA 17 (3 unidades) – Ejes: base, hombro, codo/actuador.<br>
+                            <span class="badge-icon">🔧</span> Shield CNC v3 + drivers A4988 – Microstepping configurable.<br>
+                            <span class="badge-icon">🧩</span> Arduino Uno – Firmware que recibe comandos serie y G-code simplificado.<br>
+                            <span class="badge-icon">♟️</span> Piezas de ajedrez ya diseñadas e impresión parcial. Tablero reconocible por cámara.<br>
+                            <span class="badge-icon">📡</span> Fase 2: IA (modelo YOLO/tensorflow) para identificar piezas y posición, motor de ajedrez (Stockfish liviano) integrado para jugar contra humano.<br>
+                            <span class="badge-icon">📅</span> Pendiente: montaje final de shield, pruebas de corrientes y rutinas repetitivas (fase1), integración total.</p>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <h4>📌 Organización horaria (lunes)</h4>
+                            <p>Turno mañana (4h) + Turno tarde (4h) – sesiones semanales dedicadas al proyecto multidisciplinario. Los departamentos rotan en laboratorio de instalaciones eléctricas y taller de mecánica.</p>
+                        </div>
+                    </div>
+                    <div style="flex: 1.5; min-width: 260px;">
+                        <h4>👥 Estudiantes 7° 1ª (lista completa)</h4>
+                        <div class="student-list">
+                            <!-- lista dinámica con datos de la tabla provista -->
+                            <div class="student-item"><span class="student-num">1</span> Florencia Álvarez</div>
+                            <div class="student-item"><span class="student-num">2</span> Facundo Aranda</div>
+                            <div class="student-item"><span class="student-num">3</span> Selene Basile</div>
+                            <div class="student-item"><span class="student-num">4</span> Irina Borba</div>
+                            <div class="student-item"><span class="student-num">5</span> Gabriel Cabrera</div>
+                            <div class="student-item"><span class="student-num">6</span> Tomás Candia</div>
+                            <div class="student-item"><span class="student-num">7</span> Andrés Carmona</div>
+                            <div class="student-item"><span class="student-num">8</span> Cielo Casati</div>
+                            <div class="student-item"><span class="student-num">9</span> Gabriel Cordero Barreto</div>
+                            <div class="student-item"><span class="student-num">10</span> Tomás Darino</div>
+                            <div class="student-item"><span class="student-num">11</span> Isaías Díaz</div>
+                            <div class="student-item"><span class="student-num">12</span> Héctor Iván Díaz</div>
+                            <div class="student-item"><span class="student-num">13</span> Gonzalo Domínguez</div>
+                            <div class="student-item"><span class="student-num">14</span> Ramiro Eduardo Fernández</div>
+                            <div class="student-item"><span class="student-num">15</span> Jeremías Fragosa Montero</div>
+                            <div class="student-item"><span class="student-num">16</span> Leonel González</div>
+                            <div class="student-item"><span class="student-num">17</span> Sebastián Leiva</div>
+                            <div class="student-item"><span class="student-num">18</span> Marcos Mamani Vargas</div>
+                            <div class="student-item"><span class="student-num">19</span> Diego Martínez</div>
+                            <div class="student-item"><span class="student-num">20</span> Román Montiel</div>
+                            <div class="student-item"><span class="student-num">21</span> Ramiro Narváez</div>
+                            <div class="student-item"><span class="student-num">22</span> Thiago Nascimbene</div>
+                            <div class="student-item"><span class="student-num">23</span> Lucía Perez</div>
+                            <div class="student-item"><span class="student-num">24</span> Valentín Perez</div>
+                            <div class="student-item"><span class="student-num">25</span> Gabriel Perrin Flores</div>
+                            <div class="student-item"><span class="student-num">26</span> Thiago Riquel</div>
+                            <div class="student-item"><span class="student-num">27</span> Lautaro Rodriguez</div>
+                            <div class="student-item"><span class="student-num">28</span> Zoe Ruiz Díaz</div>
+                            <div class="student-item"><span class="student-num">29</span> Jhojan Sarango Pulache</div>
+                            <div class="student-item"><span class="student-num">30</span> Bianca Segovia</div>
+                            <div class="student-item"><span class="student-num">31</span> Diego Segovia</div>
+                            <div class="student-item"><span class="student-num">32</span> Tiziano Stivanello</div>
+                            <div class="student-item"><span class="student-num">33</span> Kevin Vera Donscheff</div>
+                            <div class="student-item"><span class="student-num">34</span> Thiago Villanueva</div>
+                            <div class="student-item"><span class="student-num">35</span> Thiago Zupo</div>
+                            <div class="student-item"><span class="student-num">36</span> Edgardo Sandoval</div>
+                        </div>
+                        <p style="font-size:0.7rem; margin-top: 6px;">✅ Total 36 integrantes activos</p>
+                    </div>
+                </div>
+                <hr>
+                <div style="background: #eef2fa; border-radius: 1rem; padding: 1rem; margin-top: 0.5rem;">
+                    <p><strong>🎯 Próximos pasos (según Gantt):</strong> Montaje definitivo del shield CNC + drivers A4988 y pruebas de los tres motores NEMA17. Calibración de movimientos repetitivos y comienzo de integración de visión artificial para reconocer tablero de ajedrez. Equipos trabajando en paralelo bajo metodología ágil escolar.</p>
+                    <p style="margin-top: 8px;">📌 Fecha límite demostración final: <strong>Lunes 15 de junio de 2026</strong> · Muestra educativa y evaluación final del proyecto anual.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        Escuela de Educación Secundaria Técnica N°1 "Gral. Don José de San Martín" - Zárate, Buenos Aires.<br>
+        Proyecto interdisciplinario: Electromecánica + Programación + IA · Año 2026 · Docente a cargo: Especialidad Instalaciones Eléctricas.
+    </footer>
+</div>
+
+<!-- small script para tooltip o efecto opcional (no crítico) -->
+<script>
+    // Javascript opcional: solo mejora visual de tooltips o manejo de consola. 
+    // Se añade para cumplir requerimiento de posible js, aunque el diagrama de Gantt y división son completamente funcionales en CSS/HTML.
+    console.log("Proyecto Brazo Robot SCARA - EEST N°1 - Gestión de proyecto cargada correctamente.");
+    // Se podría agregar interacción dinámica pero no necesaria para diagrama.
+</script>
+</body>
+</html>
