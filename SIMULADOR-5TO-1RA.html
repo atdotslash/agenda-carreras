@@ -3,177 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planificación Proyecto Arcade - EEST N°1</title>
+    <title>GAME 51 - Dashboard de Proyecto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gantt-grid { display: grid; grid-template-columns: 200px repeat(12, 1fr); }
-        .bar { height: 24px; border-radius: 4px; margin: 4px 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        
+        :root {
+            --game-red: #e61d2e;
+            --game-blue: #00d2ff;
+            --game-dark: #0a0a0a;
+            --game-silver: #d1d5db;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--game-dark);
+            color: white;
+        }
+
+        .font-header { font-family: 'Orbitron', sans-serif; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--game-red);
+        }
+
+        .gantt-grid { display: grid; grid-template-columns: 220px repeat(12, 1fr); gap: 4px; }
+        
+        .bar { 
+            height: 12px; 
+            border-radius: 20px; 
+            margin: 8px 0;
+            box-shadow: 0 0 10px rgba(230, 29, 46, 0.3);
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            transition: transform 0.2s;
+        }
+
+        .instagram-btn:hover { transform: scale(1.05); }
+
+        .status-badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 p-4 md:p-8">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Encabezado -->
-        <header class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+    <div class="max-w-7xl mx-auto">
+        <!-- HEADER PRINCIPAL -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div class="flex items-center gap-6">
+                <!-- Espacio para el LOGO.jpg (asumiendo que está en la misma carpeta en GitHub Pages) -->
+                <div class="w-32 h-32 rounded-lg border-2 border-red-600 overflow-hidden shadow-[0_0_20px_rgba(230,29,46,0.5)]">
+                    <img src="LOGO.jpg" alt="GAME 51 LOGO" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=GAME+51'">
+                </div>
                 <div>
-                    <h1 class="text-3xl font-bold text-slate-800">Proyecto Arcade 2026</h1>
-                    <p class="text-slate-500 font-medium">5to 1ra - Grupo A | E.E.S.T. N° 1 Zárate</p>
-                    <p class="text-blue-600 text-sm mt-1">Prof. Edgardo Sandoval - Martes 13:00 a 17:00 hs</p>
+                    <h1 class="text-4xl font-bold font-header tracking-tighter text-white">GAME <span class="text-red-600">51</span></h1>
+                    <p class="text-cyan-400 font-header text-sm tracking-widest uppercase">Téc. Electromecánica - EEST N°1 Zárate</p>
+                    <div class="flex items-center mt-2 gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full status-badge"></span>
+                        <span class="text-xs text-green-400 uppercase font-bold tracking-widest">Proyecto en Desarrollo</span>
+                    </div>
                 </div>
-                <div class="mt-4 md:mt-0 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg border border-blue-100 text-sm">
-                    <strong>17 Estudiantes</strong> divididos por especialidad
-                </div>
+            </div>
+
+            <div class="flex flex-col items-end gap-3">
+                <a href="https://www.instagram.com/proyectos_5to1era" target="_blank" class="instagram-btn px-6 py-2 rounded-full text-sm font-bold flex items-center shadow-lg">
+                    <span class="mr-2">📸</span> @proyectos_5to1era
+                </a>
+                <p class="text-slate-400 text-xs font-mono">Prof. Edgardo Sandoval | Martes 13:00 - 17:00</p>
             </div>
         </header>
 
-        <!-- Distribución de Equipos -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Equipo Montaje -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-orange-500">
-                <h3 class="font-bold text-orange-700 mb-3 flex items-center">
-                    <span class="mr-2">🔨</span> Montaje (6)
+        <!-- EQUIPOS DE TRABAJO -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <!-- Montaje -->
+            <div class="glass-card p-5 rounded-xl">
+                <h3 class="font-header text-red-500 text-sm mb-4 border-b border-red-900/50 pb-2 flex justify-between">
+                    MONTAJE <span>01</span>
                 </h3>
-                <ul class="text-sm text-slate-600 space-y-1">
-                    <li>• BARBOZA, Eduardo</li>
-                    <li>• BATISTESSA, Santino</li>
-                    <li>• DESOPIANETTO, Dante</li>
-                    <li>• GONZALEZ, Dylan</li>
-                    <li>• JARA, Juan</li>
-                    <li>• ROMERO, Lautaro</li>
+                <ul class="text-sm text-slate-300 space-y-2">
+                    <li><span class="text-red-600">»</span> BARBOZA, Eduardo</li>
+                    <li><span class="text-red-600">»</span> BATISTESSA, Santino</li>
+                    <li><span class="text-red-600">»</span> DESOPIANETTO, Dante</li>
+                    <li><span class="text-red-600">»</span> GONZALEZ, Dylan</li>
+                    <li><span class="text-red-600">»</span> JARA, Juan</li>
+                    <li><span class="text-red-600">»</span> ROMERO, Lautaro</li>
                 </ul>
-                <p class="text-xs text-slate-400 mt-3 italic">Carpintería, ensamble y terminaciones.</p>
             </div>
 
-            <!-- Equipo Electrónica -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-blue-500">
-                <h3 class="font-bold text-blue-700 mb-3 flex items-center">
-                    <span class="mr-2">⚡</span> Electrónica (5)
+            <!-- Electrónica -->
+            <div class="glass-card p-5 rounded-xl border-t-cyan-500">
+                <h3 class="font-header text-cyan-500 text-sm mb-4 border-b border-cyan-900/50 pb-2 flex justify-between">
+                    SISTEMAS <span>02</span>
                 </h3>
-                <ul class="text-sm text-slate-600 space-y-1">
-                    <li>• DIAZ, Nicolás</li>
-                    <li>• GIMENEZ, Thiago</li>
-                    <li>• GIORDANENGO, Daian</li>
-                    <li>• LISARZUAY, Mateo</li>
-                    <li>• DIAZ, Julieta</li>
+                <ul class="text-sm text-slate-300 space-y-2">
+                    <li><span class="text-cyan-500">»</span> DIAZ, Nicolás</li>
+                    <li><span class="text-cyan-500">»</span> GIMENEZ, Thiago</li>
+                    <li><span class="text-cyan-500">»</span> GIORDANENGO, Daian</li>
+                    <li><span class="text-cyan-500">»</span> LISARZUAY, Mateo</li>
+                    <li><span class="text-cyan-500">»</span> DIAZ, Julieta</li>
                 </ul>
-                <p class="text-xs text-slate-400 mt-3 italic">Cableado, sensores, lógica y software.</p>
             </div>
 
-            <!-- Equipo Documentación -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-green-500">
-                <h3 class="font-bold text-green-700 mb-3 flex items-center">
-                    <span class="mr-2">📝</span> Doc. Técnica (3)
+            <!-- Doc Técnica -->
+            <div class="glass-card p-5 rounded-xl border-t-slate-400">
+                <h3 class="font-header text-slate-400 text-sm mb-4 border-b border-slate-700 pb-2 flex justify-between">
+                    INGENIERÍA <span>03</span>
                 </h3>
-                <ul class="text-sm text-slate-600 space-y-1">
-                    <li>• BRUN, Maite</li>
-                    <li>• CHOCALA, Sofía</li>
-                    <li>• ISAURRALDE, Sofía</li>
+                <ul class="text-sm text-slate-300 space-y-2">
+                    <li><span class="text-slate-400">»</span> BRUN, Maite</li>
+                    <li><span class="text-slate-400">»</span> CHOCALA, Sofía</li>
+                    <li><span class="text-slate-400">»</span> ISAURRALDE, Sofía</li>
                 </ul>
-                <p class="text-xs text-slate-400 mt-3 italic">Planos, manuales y costos.</p>
             </div>
 
-            <!-- Equipo Redes -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border-t-4 border-purple-500">
-                <h3 class="font-bold text-purple-700 mb-3 flex items-center">
-                    <span class="mr-2">📱</span> Redes/Social (3)
+            <!-- Redes -->
+            <div class="glass-card p-5 rounded-xl border-t-purple-500">
+                <h3 class="font-header text-purple-500 text-sm mb-4 border-b border-purple-900/50 pb-2 flex justify-between">
+                    COMUNICACIÓN <span>04</span>
                 </h3>
-                <ul class="text-sm text-slate-600 space-y-1">
-                    <li>• DURE, Alma</li>
-                    <li>• LOPEZ, Estefanía</li>
-                    <li>• MOLEDO, Evelyn</li>
+                <ul class="text-sm text-slate-300 space-y-2">
+                    <li><span class="text-purple-500">»</span> DURE, Alma</li>
+                    <li><span class="text-purple-500">»</span> LOPEZ, Estefanía</li>
+                    <li><span class="text-purple-500">»</span> MOLEDO, Evelyn</li>
                 </ul>
-                <p class="text-xs text-slate-400 mt-3 italic">Registro audiovisual y comunicación.</p>
             </div>
         </div>
 
-        <!-- Diagrama de Gantt Simbolico (12 Semanas) -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-            <h2 class="text-xl font-bold text-slate-800 mb-6">Cronograma de Ejecución (12 Clases)</h2>
+        <!-- GANTT PRO -->
+        <div class="glass-card p-6 rounded-xl border-t-slate-600 overflow-x-auto">
+            <h2 class="font-header text-lg text-white mb-6 flex items-center">
+                <span class="w-8 h-[2px] bg-red-600 mr-3"></span> CRONOGRAMA DE OPERACIONES
+            </h2>
             
-            <div class="min-w-[800px]">
-                <div class="gantt-grid text-xs font-bold text-slate-400 mb-2 border-b pb-2">
-                    <div>TAREA / ETAPA</div>
-                    <div class="text-center">C1</div>
-                    <div class="text-center">C2</div>
-                    <div class="text-center">C3</div>
-                    <div class="text-center">C4</div>
-                    <div class="text-center">C5</div>
-                    <div class="text-center">C6</div>
-                    <div class="text-center">C7</div>
-                    <div class="text-center">C8</div>
-                    <div class="text-center">C9</div>
-                    <div class="text-center">C10</div>
-                    <div class="text-center">C11</div>
-                    <div class="text-center">C12</div>
+            <div class="min-w-[900px]">
+                <div class="gantt-grid text-[10px] font-bold text-slate-500 mb-4 uppercase tracking-widest">
+                    <div>Fase de Trabajo</div>
+                    <div class="text-center">Clase 01</div>
+                    <div class="text-center">Clase 02</div>
+                    <div class="text-center">Clase 03</div>
+                    <div class="text-center">Clase 04</div>
+                    <div class="text-center">Clase 05</div>
+                    <div class="text-center">Clase 06</div>
+                    <div class="text-center">Clase 07</div>
+                    <div class="text-center">Clase 08</div>
+                    <div class="text-center">Clase 09</div>
+                    <div class="text-center">Clase 10</div>
+                    <div class="text-center">Clase 11</div>
+                    <div class="text-center">Clase 12</div>
                 </div>
 
-                <!-- Filas de Tareas -->
-                <div class="gantt-grid items-center py-2 border-b border-slate-50">
-                    <div class="text-sm font-semibold text-slate-700">Diseño y Prototipado</div>
-                    <div class="col-span-2 bg-orange-200 bar"></div>
+                <div class="gantt-grid items-center py-1 border-b border-white/5">
+                    <div class="text-xs font-semibold text-slate-400">Ingeniería & Diseño</div>
+                    <div class="col-span-2 bg-red-600/40 bar"></div>
                 </div>
                 
-                <div class="gantt-grid items-center py-2 border-b border-slate-50">
-                    <div class="text-sm font-semibold text-slate-700">Corte y Estructura</div>
+                <div class="gantt-grid items-center py-1 border-b border-white/5">
+                    <div class="text-xs font-semibold text-slate-400">Estructura & Corte</div>
                     <div></div>
-                    <div class="col-span-4 bg-orange-400 bar"></div>
+                    <div class="col-span-4 bg-red-600 bar"></div>
                 </div>
 
-                <div class="gantt-grid items-center py-2 border-b border-slate-50">
-                    <div class="text-sm font-semibold text-slate-700">Instalación Eléctrica</div>
+                <div class="gantt-grid items-center py-1 border-b border-white/5">
+                    <div class="text-xs font-semibold text-slate-400">Automatismos & Electrónica</div>
                     <div class="col-span-3"></div>
-                    <div class="col-span-5 bg-blue-500 bar"></div>
+                    <div class="col-span-5 bg-cyan-500 bar"></div>
                 </div>
 
-                <div class="gantt-grid items-center py-2 border-b border-slate-50">
-                    <div class="text-sm font-semibold text-slate-700">Configuración Software</div>
+                <div class="gantt-grid items-center py-1 border-b border-white/5">
+                    <div class="text-xs font-semibold text-slate-400">Integración de Software</div>
                     <div class="col-span-5"></div>
-                    <div class="col-span-4 bg-blue-300 bar"></div>
+                    <div class="col-span-4 bg-cyan-300/50 bar"></div>
                 </div>
 
-                <div class="gantt-grid items-center py-2 border-b border-slate-50">
-                    <div class="text-sm font-semibold text-slate-700">Pintura y Estética</div>
+                <div class="gantt-grid items-center py-1 border-b border-white/5">
+                    <div class="text-xs font-semibold text-slate-400">Acabado & Pintura</div>
                     <div class="col-span-8"></div>
-                    <div class="col-span-3 bg-orange-600 bar"></div>
+                    <div class="col-span-3 bg-red-800 bar"></div>
                 </div>
 
-                <div class="gantt-grid items-center py-2">
-                    <div class="text-sm font-semibold text-slate-700">Presentación Final</div>
+                <div class="gantt-grid items-center py-1">
+                    <div class="text-xs font-semibold text-slate-400">Control de Calidad</div>
                     <div class="col-span-11"></div>
                     <div class="bg-green-500 bar"></div>
                 </div>
             </div>
-
-            <div class="mt-6 flex gap-4 text-xs">
-                <span class="flex items-center"><span class="w-3 h-3 bg-orange-400 rounded mr-1"></span> Montaje</span>
-                <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded mr-1"></span> Electrónica</span>
-                <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded mr-1"></span> Cierre</span>
-            </div>
         </div>
 
-        <!-- Metodología -->
-        <div class="mt-8 bg-slate-800 text-slate-200 p-6 rounded-xl">
-            <h2 class="text-lg font-bold mb-4 flex items-center text-white">
-                <span class="mr-2">📋</span> Dinámica de los Martes (13:00 - 17:00)
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-                <div class="border-l-2 border-blue-400 pl-4">
-                    <h4 class="font-bold text-blue-400">Inicio (13:00 - 13:30)</h4>
-                    <p>Briefing semanal. Cada equipo reporta avances y bloqueos. El equipo de **Redes** prepara la cámara para documentar el "antes" de la jornada.</p>
-                </div>
-                <div class="border-l-2 border-green-400 pl-4">
-                    <h4 class="font-bold text-green-400">Núcleo (13:30 - 16:15)</h4>
-                    <p>Trabajo técnico intenso. **Documentación** circula entre grupos para actualizar planos y manual de usuario en tiempo real.</p>
-                </div>
-                <div class="border-l-2 border-orange-400 pl-4">
-                    <h4 class="font-bold text-orange-400">Cierre (16:15 - 17:00)</h4>
-                    <p>Limpieza del taller. Backup de software. El equipo de **Redes** edita y sube el "Reel" o actualización del progreso.</p>
-                </div>
-            </div>
-        </div>
+        <footer class="mt-10 text-center text-slate-500 text-xs font-mono uppercase tracking-[0.2em]">
+            EEST N° 1, Zárate // Tecnicatura en Electromecánica // 2026
+        </footer>
     </div>
 
 </body>
