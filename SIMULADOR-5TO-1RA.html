@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME 51 - Dashboard de Proyecto</title>
+    <title>GAME 51 - E.E.S.T. N°1 Zárate</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
@@ -12,6 +12,7 @@
             --game-red: #e61d2e;
             --game-blue: #00d2ff;
             --game-dark: #0a0a0a;
+            --game-darker: #050505;
             --game-silver: #d1d5db;
         }
 
@@ -19,6 +20,7 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--game-dark);
             color: white;
+            scroll-behavior: smooth;
         }
 
         .font-header { font-family: 'Orbitron', sans-serif; }
@@ -27,8 +29,9 @@
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid var(--game-red);
         }
+
+        .border-game { border-top: 4px solid var(--game-red); }
 
         .gantt-grid { display: grid; grid-template-columns: 220px repeat(12, 1fr); gap: 4px; }
         
@@ -39,170 +42,162 @@
             box-shadow: 0 0 10px rgba(230, 29, 46, 0.3);
         }
 
-        .instagram-btn {
+        .instagram-gradient {
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            transition: transform 0.2s;
         }
 
-        .instagram-btn:hover { transform: scale(1.05); }
-
-        .status-badge {
-            animation: pulse 2s infinite;
+        .sponsor-card {
+            background: linear-gradient(135deg, rgba(230, 29, 46, 0.1) 0%, rgba(0, 210, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
         }
+        .live-dot { animation: pulse 2s infinite; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto">
-        <!-- HEADER PRINCIPAL -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <div class="flex items-center gap-6">
-                <!-- Espacio para el LOGO.jpg (asumiendo que está en la misma carpeta en GitHub Pages) -->
-                <div class="w-32 h-32 rounded-lg border-2 border-red-600 overflow-hidden shadow-[0_0_20px_rgba(230,29,46,0.5)]">
-                    <img src="LOGO.jpg" alt="GAME 51 LOGO" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=GAME+51'">
-                </div>
-                <div>
-                    <h1 class="text-4xl font-bold font-header tracking-tighter text-white">GAME <span class="text-red-600">51</span></h1>
-                    <p class="text-cyan-400 font-header text-sm tracking-widest uppercase">Téc. Electromecánica - EEST N°1 Zárate</p>
-                    <div class="flex items-center mt-2 gap-2">
-                        <span class="w-2 h-2 bg-green-500 rounded-full status-badge"></span>
-                        <span class="text-xs text-green-400 uppercase font-bold tracking-widest">Proyecto en Desarrollo</span>
-                    </div>
-                </div>
+        <!-- HEADER / LOGO (Rectangular Fix) -->
+        <header class="flex flex-col items-center mb-12">
+            <div class="w-full max-w-2xl mb-6">
+                <!-- El logo ahora ocupa un espacio rectangular apaisado -->
+                <img src="LOGO.jpg" alt="GAME 51 LOGO" class="w-full h-auto rounded-xl shadow-[0_0_30px_rgba(230,29,46,0.3)] border border-white/10" onerror="this.src='https://via.placeholder.com/800x300?text=GAME+51+ELECTROMECANICA'">
             </div>
-
-            <div class="flex flex-col items-end gap-3">
-                <a href="https://www.instagram.com/proyectos_5to1era" target="_blank" class="instagram-btn px-6 py-2 rounded-full text-sm font-bold flex items-center shadow-lg">
-                    <span class="mr-2">📸</span> @proyectos_5to1era
-                </a>
-                <p class="text-slate-400 text-xs font-mono">Prof. Edgardo Sandoval | Martes 13:00 - 17:00</p>
+            
+            <div class="text-center">
+                <h1 class="text-4xl font-bold font-header tracking-tighter text-white mb-2">PROYECTO <span class="text-red-600">GAME 51</span></h1>
+                <p class="text-cyan-400 font-header text-sm tracking-[0.3em] uppercase">E.E.S.T. N° 1 Zárate • 5to 1ra Electromecánica</p>
             </div>
         </header>
 
+        <!-- SECCIÓN DE COLABORACIÓN (Call to Action) -->
+        <section class="mb-10 sponsor-card p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="max-w-2xl text-center md:text-left">
+                <h2 class="text-2xl font-bold font-header text-white mb-2">¡Ayudanos con el Proyecto!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Estamos construyendo un Arcade desde cero y necesitamos materiales (fenólicos, componentes electrónicos, ploteados). Aceptamos donaciones directas, materiales o productos/servicios para monetizar mediante sorteos y eventos.
+                </p>
+            </div>
+            <div class="flex flex-col gap-3 min-w-[250px]">
+                <a href="https://www.instagram.com/proyectos_5to1era" target="_blank" class="instagram-gradient text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center hover:opacity-90 transition-all shadow-lg">
+                    <span>Contactanos por Instagram</span>
+                </a>
+                <p class="text-[10px] text-center text-slate-400 uppercase tracking-widest">@proyectos_5to1era</p>
+            </div>
+        </section>
+
         <!-- EQUIPOS DE TRABAJO -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <!-- Montaje -->
-            <div class="glass-card p-5 rounded-xl">
-                <h3 class="font-header text-red-500 text-sm mb-4 border-b border-red-900/50 pb-2 flex justify-between">
-                    MONTAJE <span>01</span>
-                </h3>
-                <ul class="text-sm text-slate-300 space-y-2">
-                    <li><span class="text-red-600">»</span> BARBOZA, Eduardo</li>
-                    <li><span class="text-red-600">»</span> BATISTESSA, Santino</li>
-                    <li><span class="text-red-600">»</span> DESOPIANETTO, Dante</li>
-                    <li><span class="text-red-600">»</span> GONZALEZ, Dylan</li>
-                    <li><span class="text-red-600">»</span> JARA, Juan</li>
-                    <li><span class="text-red-600">»</span> ROMERO, Lautaro</li>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="glass-card border-game p-5 rounded-xl">
+                <h3 class="font-header text-red-500 text-xs mb-4 uppercase tracking-widest border-b border-red-900/30 pb-2">01. Montaje Estructural</h3>
+                <ul class="text-sm text-slate-300 space-y-1">
+                    <li>• BARBOZA, Eduardo</li>
+                    <li>• BATISTESSA, Santino</li>
+                    <li>• DESOPIANETTO, Dante</li>
+                    <li>• GONZALEZ, Dylan</li>
+                    <li>• JARA, Juan</li>
+                    <li>• ROMERO, Lautaro</li>
                 </ul>
             </div>
-
-            <!-- Electrónica -->
-            <div class="glass-card p-5 rounded-xl border-t-cyan-500">
-                <h3 class="font-header text-cyan-500 text-sm mb-4 border-b border-cyan-900/50 pb-2 flex justify-between">
-                    SISTEMAS <span>02</span>
-                </h3>
-                <ul class="text-sm text-slate-300 space-y-2">
-                    <li><span class="text-cyan-500">»</span> DIAZ, Nicolás</li>
-                    <li><span class="text-cyan-500">»</span> GIMENEZ, Thiago</li>
-                    <li><span class="text-cyan-500">»</span> GIORDANENGO, Daian</li>
-                    <li><span class="text-cyan-500">»</span> LISARZUAY, Mateo</li>
-                    <li><span class="text-cyan-500">»</span> DIAZ, Julieta</li>
+            <div class="glass-card border-t-4 border-cyan-500 p-5 rounded-xl text-cyan-50">
+                <h3 class="font-header text-cyan-500 text-xs mb-4 uppercase tracking-widest border-b border-cyan-900/30 pb-2">02. Sistemas y Lógica</h3>
+                <ul class="text-sm text-slate-300 space-y-1">
+                    <li>• DIAZ, Nicolás</li>
+                    <li>• GIMENEZ, Thiago</li>
+                    <li>• GIORDANENGO, Daian</li>
+                    <li>• LISARZUAY, Mateo</li>
+                    <li>• DIAZ, Julieta</li>
                 </ul>
             </div>
-
-            <!-- Doc Técnica -->
-            <div class="glass-card p-5 rounded-xl border-t-slate-400">
-                <h3 class="font-header text-slate-400 text-sm mb-4 border-b border-slate-700 pb-2 flex justify-between">
-                    INGENIERÍA <span>03</span>
-                </h3>
-                <ul class="text-sm text-slate-300 space-y-2">
-                    <li><span class="text-slate-400">»</span> BRUN, Maite</li>
-                    <li><span class="text-slate-400">»</span> CHOCALA, Sofía</li>
-                    <li><span class="text-slate-400">»</span> ISAURRALDE, Sofía</li>
+            <div class="glass-card border-t-4 border-slate-400 p-5 rounded-xl">
+                <h3 class="font-header text-slate-400 text-xs mb-4 uppercase tracking-widest border-b border-slate-700/30 pb-2">03. Ingeniería Técnica</h3>
+                <ul class="text-sm text-slate-300 space-y-1">
+                    <li>• BRUN, Maite</li>
+                    <li>• CHOCALA, Sofía</li>
+                    <li>• ISAURRALDE, Sofía</li>
                 </ul>
             </div>
-
-            <!-- Redes -->
-            <div class="glass-card p-5 rounded-xl border-t-purple-500">
-                <h3 class="font-header text-purple-500 text-sm mb-4 border-b border-purple-900/50 pb-2 flex justify-between">
-                    COMUNICACIÓN <span>04</span>
-                </h3>
-                <ul class="text-sm text-slate-300 space-y-2">
-                    <li><span class="text-purple-500">»</span> DURE, Alma</li>
-                    <li><span class="text-purple-500">»</span> LOPEZ, Estefanía</li>
-                    <li><span class="text-purple-500">»</span> MOLEDO, Evelyn</li>
+            <div class="glass-card border-t-4 border-purple-500 p-5 rounded-xl">
+                <h3 class="font-header text-purple-500 text-xs mb-4 uppercase tracking-widest border-b border-purple-900/30 pb-2">04. Comunicación Social</h3>
+                <ul class="text-sm text-slate-300 space-y-1">
+                    <li>• DURE, Alma</li>
+                    <li>• LOPEZ, Estefanía</li>
+                    <li>• MOLEDO, Evelyn</li>
                 </ul>
             </div>
         </div>
 
-        <!-- GANTT PRO -->
-        <div class="glass-card p-6 rounded-xl border-t-slate-600 overflow-x-auto">
-            <h2 class="font-header text-lg text-white mb-6 flex items-center">
-                <span class="w-8 h-[2px] bg-red-600 mr-3"></span> CRONOGRAMA DE OPERACIONES
+        <!-- CRONOGRAMA -->
+        <div class="glass-card p-6 rounded-2xl mb-12 overflow-x-auto border border-white/5">
+            <h2 class="font-header text-lg text-white mb-8 flex items-center">
+                <span class="w-10 h-[2px] bg-red-600 mr-4"></span> PLAN DE EJECUCIÓN 2026
             </h2>
             
             <div class="min-w-[900px]">
                 <div class="gantt-grid text-[10px] font-bold text-slate-500 mb-4 uppercase tracking-widest">
-                    <div>Fase de Trabajo</div>
-                    <div class="text-center">Clase 01</div>
-                    <div class="text-center">Clase 02</div>
-                    <div class="text-center">Clase 03</div>
-                    <div class="text-center">Clase 04</div>
-                    <div class="text-center">Clase 05</div>
-                    <div class="text-center">Clase 06</div>
-                    <div class="text-center">Clase 07</div>
-                    <div class="text-center">Clase 08</div>
-                    <div class="text-center">Clase 09</div>
-                    <div class="text-center">Clase 10</div>
-                    <div class="text-center">Clase 11</div>
-                    <div class="text-center">Clase 12</div>
+                    <div>Fase del Proyecto</div>
+                    <div class="text-center">C 01</div><div class="text-center">C 02</div>
+                    <div class="text-center">C 03</div><div class="text-center">C 04</div>
+                    <div class="text-center">C 05</div><div class="text-center">C 06</div>
+                    <div class="text-center">C 07</div><div class="text-center">C 08</div>
+                    <div class="text-center">C 09</div><div class="text-center">C 10</div>
+                    <div class="text-center">C 11</div><div class="text-center">C 12</div>
                 </div>
 
-                <div class="gantt-grid items-center py-1 border-b border-white/5">
-                    <div class="text-xs font-semibold text-slate-400">Ingeniería & Diseño</div>
-                    <div class="col-span-2 bg-red-600/40 bar"></div>
+                <div class="gantt-grid items-center py-2 border-b border-white/5">
+                    <div class="text-xs text-slate-400 uppercase font-bold">Diseño y Presupuesto</div>
+                    <div class="col-span-2 bg-red-600/30 bar"></div>
                 </div>
-                
-                <div class="gantt-grid items-center py-1 border-b border-white/5">
-                    <div class="text-xs font-semibold text-slate-400">Estructura & Corte</div>
-                    <div></div>
-                    <div class="col-span-4 bg-red-600 bar"></div>
+                <div class="gantt-grid items-center py-2 border-b border-white/5">
+                    <div class="text-xs text-slate-400 uppercase font-bold">Corte de Estructura</div>
+                    <div></div><div class="col-span-4 bg-red-600 bar"></div>
                 </div>
-
-                <div class="gantt-grid items-center py-1 border-b border-white/5">
-                    <div class="text-xs font-semibold text-slate-400">Automatismos & Electrónica</div>
-                    <div class="col-span-3"></div>
-                    <div class="col-span-5 bg-cyan-500 bar"></div>
+                <div class="gantt-grid items-center py-2 border-b border-white/5">
+                    <div class="text-xs text-slate-400 uppercase font-bold">Montaje Electrónico</div>
+                    <div class="col-span-3"></div><div class="col-span-5 bg-cyan-500 bar"></div>
                 </div>
-
-                <div class="gantt-grid items-center py-1 border-b border-white/5">
-                    <div class="text-xs font-semibold text-slate-400">Integración de Software</div>
-                    <div class="col-span-5"></div>
-                    <div class="col-span-4 bg-cyan-300/50 bar"></div>
-                </div>
-
-                <div class="gantt-grid items-center py-1 border-b border-white/5">
-                    <div class="text-xs font-semibold text-slate-400">Acabado & Pintura</div>
-                    <div class="col-span-8"></div>
-                    <div class="col-span-3 bg-red-800 bar"></div>
-                </div>
-
-                <div class="gantt-grid items-center py-1">
-                    <div class="text-xs font-semibold text-slate-400">Control de Calidad</div>
-                    <div class="col-span-11"></div>
-                    <div class="bg-green-500 bar"></div>
+                <div class="gantt-grid items-center py-2">
+                    <div class="text-xs text-slate-400 uppercase font-bold">Estética y Ploteado</div>
+                    <div class="col-span-8"></div><div class="col-span-3 bg-red-900 bar"></div>
                 </div>
             </div>
         </div>
 
-        <footer class="mt-10 text-center text-slate-500 text-xs font-mono uppercase tracking-[0.2em]">
-            EEST N° 1, Zárate // Tecnicatura en Electromecánica // 2026
+        <!-- DESCRIPCIÓN DEL PROYECTO (Nueva posición) -->
+        <section class="glass-card p-8 rounded-2xl mb-12 border-l-4 border-l-red-600">
+            <h2 class="font-header text-2xl text-white mb-6">Sobre el Proyecto GAME 51</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-slate-300 leading-relaxed text-sm">
+                <div class="space-y-4">
+                    <p>
+                        <strong class="text-white">GAME 51</strong> no es solo la construcción de una máquina recreativa; es el proyecto integrador de Taller de los estudiantes de <strong class="text-white">5to 1ra</strong> de la Escuela de Educación Secundaria Técnica N° 1 de Zárate.
+                    </p>
+                    <p>
+                        A través de este desarrollo, aplicamos conocimientos de automatismos, circuitos de potencia, electrónica digital, herrería y carpintería técnica. El objetivo es crear una estación de juegos profesional que demuestre nuestra capacidad técnica.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-white font-bold uppercase text-xs tracking-widest">Gestión de Recursos y Comunidad</h4>
+                    <p>
+                        Debido a la magnitud del proyecto y el alto costo de los materiales industriales (madera de alta densidad, comandos de alta competencia y vinilos de protección), el equipo ha iniciado una campaña de <strong class="text-cyan-400 text-xs">COLABORACIÓN ACTIVA</strong>.
+                    </p>
+                    <p class="bg-white/5 p-4 rounded-lg italic">
+                        "Convertimos cualquier recurso en una oportunidad: desde materiales de construcción hasta productos para sorteos. Todo suma para que este Arcade sea una realidad en nuestro taller."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-16 pb-8 text-center">
+            <p class="text-slate-600 text-[10px] font-mono uppercase tracking-[0.5em]">
+                EEST N° 1 de Zárate, Buenos Aires | Materia: Máquinas Eléctricas y Automatísmos | Ciclo Lectivo 2026
+		Prof. Edgardo SANDOVAL
+            </p>
         </footer>
     </div>
 
